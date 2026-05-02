@@ -96,8 +96,8 @@
     /* Palm trees */
     .hero-palms { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
     .palm { position: absolute; bottom: 0; }
-    .palm-left  { left: -20px;  width: 280px; height: 580px; }
-    .palm-right { right: -20px; width: 280px; height: 580px; transform: scaleX(-1); }
+    .palm-left  { left: -60px;  width: 360px; height: 520px; object-fit: contain; object-position: bottom; }
+    .palm-right { right: -60px; width: 360px; height: 520px; object-fit: contain; object-position: bottom; transform: scaleX(-1); }
     /* Hero wave */
     .hero-wave { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; height: 70px; overflow: hidden; }
     .hero-wave svg { width: 100%; height: 100%; }
@@ -340,9 +340,22 @@
       .flights-grid { grid-template-columns: 1fr; }
       .price-box { flex-direction: column; }
       .baggage-row { flex-direction: column; }
-      .dr-flag { width: 220px; height: 147px; }
-      .palm-left  { width: 160px; height: 340px; left: -10px; }
-      .palm-right { width: 160px; height: 340px; right: -10px; }
+      .dr-flag-wrap { top: 5rem; right: 0.75rem; }
+      .dr-flag { width: 48px; height: 32px; }
+      .palm-left  { width: 180px; height: 260px; left: -20px; }
+      .palm-right { width: 180px; height: 260px; right: -20px; }
+      .hero-eyebrow { font-size: 0.65rem; letter-spacing: 0.15em; padding: 0.35rem 0.9rem; max-width: calc(100vw - 80px); white-space: normal; text-align: center; }
+      .countdown { gap: 0.5rem; }
+      .cd-unit { min-width: 58px; padding: 0.65rem 0.8rem; }
+      .cd-num { font-size: 1.6rem; }
+      #hero { padding: 6rem 1rem 4rem; }
+    }
+    @media (min-width: 761px) and (max-width: 1024px) {
+      .dr-flag-wrap { top: 5rem; right: 1.5rem; }
+      .dr-flag { width: 72px; height: 48px; }
+      .palm-left  { width: 260px; height: 380px; left: -30px; }
+      .palm-right { width: 260px; height: 380px; right: -30px; }
+      .payment-cards { grid-template-columns: repeat(3,1fr); gap: 0.9rem; }
     }
     @media (max-width: 480px) {
       .countdown { gap: 0.6rem; }
@@ -398,90 +411,8 @@
 
   <!-- Palm trees -->
   <div class="hero-palms" aria-hidden="true">
-    <!-- Left palm: shorter trunk, wide crown -->
-    <svg class="palm palm-left" viewBox="0 0 260 380" xmlns="http://www.w3.org/2000/svg">
-      <!-- Trunk: shorter, slightly curved -->
-      <path d="M80 380 Q83 310 87 240 Q91 180 96 140 Q99 118 102 100" stroke="#9a9888" stroke-width="16" stroke-linecap="round" fill="none"/>
-      <path d="M80 380 Q83 310 87 240 Q91 180 96 140 Q99 118 102 100" stroke="#d8d4c0" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.5"/>
-      <!-- Trunk rings -->
-      <path d="M82 340 Q88 337 94 340" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M83 300 Q89 297 95 300" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M85 260 Q91 257 97 260" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M87 220 Q93 217 99 220" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M90 185 Q96 182 102 185" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M94 152 Q100 149 106 152" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M98 120 Q104 117 110 120" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-
-      <!-- FRONDS — wide, bold, long, drooping from crown at (102,100) -->
-      <!-- Frond 1: hard left sweep, very wide, long droop -->
-      <path d="M102 100 C75 82 35 58 -20 38 C-55 24 -88 22 -92 32 C-78 36 -42 42 8 62 C58 82 86 94 102 100Z" fill="#267014"/>
-      <path d="M102 100 C75 82 35 58 -20 38 C-55 24 -88 22 -92 32" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
-
-      <!-- Frond 2: upper-left arch -->
-      <path d="M102 100 C86 65 72 22 66 -22 C63 -38 56 -42 53 -35 C58 -12 70 28 88 68 C95 84 100 94 102 100Z" fill="#2e7c18"/>
-      <path d="M102 100 C86 65 72 22 66 -22 C63 -38 56 -42 53 -35" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
-
-      <!-- Frond 3: straight up -->
-      <path d="M102 100 C100 64 101 24 99 -18 C98 -32 105 -35 108 -28 C110 12 106 58 102 100Z" fill="#267014"/>
-
-      <!-- Frond 4: upper-right -->
-      <path d="M102 100 C118 68 146 34 180 4 C190 -6 197 -5 196 4 C184 14 154 46 128 78 C116 90 108 97 102 100Z" fill="#2e7c18"/>
-      <path d="M102 100 C118 68 146 34 180 4 C190 -6 197 -5 196 4" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
-
-      <!-- Frond 5: far right, very wide -->
-      <path d="M102 100 C135 84 182 70 238 62 C262 58 274 66 271 77 C250 78 206 88 154 102 C128 110 110 108 102 100Z" fill="#267014"/>
-      <path d="M102 100 C135 84 182 70 238 62 C262 58 274 66 271 77" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
-
-      <!-- Frond 6: lower-right drooping -->
-      <path d="M102 100 C130 114 165 134 204 162 C228 180 238 198 230 208 C218 200 202 180 168 158 C132 134 112 116 102 100Z" fill="#2e7c18"/>
-      <path d="M102 100 C130 114 165 134 204 162 C228 180 238 198 230 208" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
-
-      <!-- Frond 7: droops far lower-right -->
-      <path d="M102 100 C120 126 144 162 168 210 C180 236 182 260 174 265 C164 256 160 230 144 202 C124 162 110 128 102 100Z" fill="#267014"/>
-
-      <!-- Frond 8: drops straight down -->
-      <path d="M102 100 C98 128 92 165 84 208 C78 240 74 262 66 266 C62 256 68 232 74 196 C80 158 86 126 102 100Z" fill="#2e7c18"/>
-
-      <!-- Frond 9: lower-left droop -->
-      <path d="M102 100 C80 116 48 138 8 165 C-18 182 -34 198 -30 208 C-18 202 2 184 32 164 C68 140 88 118 102 100Z" fill="#267014"/>
-      <path d="M102 100 C80 116 48 138 8 165 C-18 182 -34 198 -30 208" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
-
-      <!-- Coconuts -->
-      <circle cx="98" cy="108" r="10" fill="#5a3a10"/>
-      <circle cx="111" cy="103" r="9" fill="#4e3208"/>
-      <circle cx="91" cy="104" r="8" fill="#523510"/>
-    </svg>
-
-    <!-- Right palm: exact mirror -->
-    <svg class="palm palm-right" viewBox="0 0 260 380" xmlns="http://www.w3.org/2000/svg">
-      <path d="M80 380 Q83 310 87 240 Q91 180 96 140 Q99 118 102 100" stroke="#9a9888" stroke-width="16" stroke-linecap="round" fill="none"/>
-      <path d="M80 380 Q83 310 87 240 Q91 180 96 140 Q99 118 102 100" stroke="#d8d4c0" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.5"/>
-      <path d="M82 340 Q88 337 94 340" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M83 300 Q89 297 95 300" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M85 260 Q91 257 97 260" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M87 220 Q93 217 99 220" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M90 185 Q96 182 102 185" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M94 152 Q100 149 106 152" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M98 120 Q104 117 110 120" stroke="#7a7868" stroke-width="1.5" fill="none"/>
-      <path d="M102 100 C75 82 35 58 -20 38 C-55 24 -88 22 -92 32 C-78 36 -42 42 8 62 C58 82 86 94 102 100Z" fill="#267014"/>
-      <path d="M102 100 C75 82 35 58 -20 38 C-55 24 -88 22 -92 32" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
-      <path d="M102 100 C86 65 72 22 66 -22 C63 -38 56 -42 53 -35 C58 -12 70 28 88 68 C95 84 100 94 102 100Z" fill="#2e7c18"/>
-      <path d="M102 100 C86 65 72 22 66 -22 C63 -38 56 -42 53 -35" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
-      <path d="M102 100 C100 64 101 24 99 -18 C98 -32 105 -35 108 -28 C110 12 106 58 102 100Z" fill="#267014"/>
-      <path d="M102 100 C118 68 146 34 180 4 C190 -6 197 -5 196 4 C184 14 154 46 128 78 C116 90 108 97 102 100Z" fill="#2e7c18"/>
-      <path d="M102 100 C118 68 146 34 180 4 C190 -6 197 -5 196 4" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
-      <path d="M102 100 C135 84 182 70 238 62 C262 58 274 66 271 77 C250 78 206 88 154 102 C128 110 110 108 102 100Z" fill="#267014"/>
-      <path d="M102 100 C135 84 182 70 238 62 C262 58 274 66 271 77" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
-      <path d="M102 100 C130 114 165 134 204 162 C228 180 238 198 230 208 C218 200 202 180 168 158 C132 134 112 116 102 100Z" fill="#2e7c18"/>
-      <path d="M102 100 C130 114 165 134 204 162 C228 180 238 198 230 208" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
-      <path d="M102 100 C120 126 144 162 168 210 C180 236 182 260 174 265 C164 256 160 230 144 202 C124 162 110 128 102 100Z" fill="#267014"/>
-      <path d="M102 100 C98 128 92 165 84 208 C78 240 74 262 66 266 C62 256 68 232 74 196 C80 158 86 126 102 100Z" fill="#2e7c18"/>
-      <path d="M102 100 C80 116 48 138 8 165 C-18 182 -34 198 -30 208 C-18 202 2 184 32 164 C68 140 88 118 102 100Z" fill="#267014"/>
-      <path d="M102 100 C80 116 48 138 8 165 C-18 182 -34 198 -30 208" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
-      <circle cx="98" cy="108" r="10" fill="#5a3a10"/>
-      <circle cx="111" cy="103" r="9" fill="#4e3208"/>
-      <circle cx="91" cy="104" r="8" fill="#523510"/>
-    </svg>
+    <img class="palm palm-left" src="images/palm_user.png" alt="" />
+    <img class="palm palm-right" src="images/palm_user.png" alt="" />
   </div>
 
   <!-- Wave -->
