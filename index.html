@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#JW30 – Jasmine's 30th Birthday in Punta Cana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ivory: #faf7f2;
+      --sand: #f2ede4;
+      --gold: #b8892a;
+      --gold-light: #d4a843;
+      --gold-dark: #7a5a18;
+      --teal: #1a9b8c;
+      --teal-light: #2ec4b0;
+      --coral: #e05c3a;
+      --pink: #d42d6e;
+      --mango: #e8882a;
+      --peach: #f0a060;
+      --ink: #1a1a14;
+      --ink-mid: #4a4838;
+      --ink-soft: #8a8470;
+      --white: #ffffff;
+      --blush: #fdf0ec;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--ivory); color: var(--ink); overflow-x: hidden; line-height: 1.6; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+    button { font-family: 'Inter', sans-serif; cursor: pointer; border: none; }
+
+    /* ── NAV ─────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(250,247,242,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(184,137,42,0.2);
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--gold-dark); text-decoration: none; }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: var(--ink-mid); transition: color 0.2s; white-space: nowrap; }
+    .nav-links a:hover { color: var(--coral); }
+    .nav-toggle { display: none; background: none; border: none; flex-direction: column; gap: 5px; padding: 0.5rem; }
+    .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--ink); border-radius: 2px; }
+
+    /* ── HERO ────────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      overflow: hidden;
+      padding: 7rem 1.5rem 5rem;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(180deg,
+        #2a1a4e 0%,
+        #6b2535 30%,
+        #c4501a 55%,
+        #d4702a 72%,
+        #8a2535 88%,
+        #3a1020 100%);
+    }
+    /* Sunset horizon shimmer */
+    .hero-horizon {
+      position: absolute; bottom: 38%; left: 0; right: 0; z-index: 1;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 5%, rgba(240,200,80,0.7) 30%, rgba(255,220,100,0.95) 50%, rgba(240,200,80,0.7) 70%, transparent 95%);
+      filter: blur(1px);
+    }
+    /* Bottom dark water */
+    .hero-water {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 1;
+      height: 38%;
+      background: linear-gradient(to top, rgba(20,8,30,0.9) 0%, rgba(40,15,40,0.6) 50%, transparent 100%);
+    }
+    /* DR Flag */
+    .dr-flag-wrap {
+      position: absolute; top: 5.5rem; right: 2rem; z-index: 10;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+    }
+    /* DR Flag — top right, small but visible */
+    .dr-flag-wrap {
+      position: absolute; top: 5.5rem; right: 2rem;
+      z-index: 10; pointer-events: none;
+      filter: drop-shadow(0 3px 10px rgba(0,0,0,0.45));
+    }
+    .dr-flag { width: 88px; height: 59px; border-radius: 5px; display: block; opacity: 0.92; }
+    /* Palm trees */
+    .hero-palms { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+    .palm { position: absolute; bottom: 0; }
+    .palm-left  { left: -20px;  width: 280px; height: 580px; }
+    .palm-right { right: -20px; width: 280px; height: 580px; transform: scaleX(-1); }
+    /* Hero wave */
+    .hero-wave { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; height: 70px; overflow: hidden; }
+    .hero-wave svg { width: 100%; height: 100%; }
+    /* Hero content */
+    .hero-content { position: relative; z-index: 5; max-width: 780px; width: 100%; }
+    .hero-eyebrow {
+      display: inline-block; white-space: nowrap;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+      color: #f5e4b0;
+      background: rgba(30,10,50,0.55);
+      border: 1px solid rgba(220,180,80,0.5);
+      padding: 0.4rem 1.4rem; border-radius: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 11vw, 6.5rem);
+      font-weight: 700; color: #fff; line-height: 1;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.9), 0 8px 30px rgba(0,0,0,0.7), 0 20px 60px rgba(0,0,0,0.5);
+      margin-bottom: 0.6rem;
+    }
+    .hero-sub {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: clamp(1rem, 3vw, 1.4rem); color: rgba(245,228,176,0.95);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+      margin-bottom: 0.5rem;
+    }
+    .hero-tagline {
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem); font-style: italic;
+      color: rgba(250,240,210,0.9);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      margin-bottom: 3rem;
+    }
+
+    /* ── COUNTDOWN ───────────────────────────────────────────── */
+    .countdown {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .cd-unit {
+      background: rgba(20,8,40,0.55);
+      border: 1px solid rgba(220,180,80,0.45);
+      border-radius: 1.25rem;
+      padding: 0.9rem 1.1rem; min-width: 70px; text-align: center;
+    }
+    .cd-num {
+      display: block; font-family: 'Inter', sans-serif; font-size: 2rem;
+      font-weight: 700; color: #fff; line-height: 1; letter-spacing: -0.02em;
+    }
+    .cd-label {
+      display: block; font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(245,228,176,0.8); margin-top: 0.3rem;
+    }
+
+    /* ── PAYMENT CARDS ───────────────────────────────────────── */
+    .payment-cards {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem;
+      max-width: 760px; margin: 0 auto;
+    }
+    .pay-card {
+      background: rgba(20,8,40,0.5);
+      border: 1px solid rgba(220,180,80,0.4);
+      border-radius: 1.75rem;
+      padding: 1.5rem 1.25rem;
+      position: relative; overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .pay-card:hover { transform: translateY(-4px); }
+    .pay-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      border-radius: 1.75rem 1.75rem 0 0;
+    }
+    .pay-card:nth-child(1)::before { background: linear-gradient(90deg, var(--teal), var(--teal-light)); }
+    .pay-card:nth-child(2)::before { background: linear-gradient(90deg, var(--coral), var(--peach)); }
+    .pay-card:nth-child(3)::before { background: linear-gradient(90deg, var(--pink), var(--mango)); }
+    .pay-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,228,176,0.8); margin-bottom: 0.6rem; }
+    .pay-amount { font-family: 'Inter', sans-serif; font-size: 2.4rem; font-weight: 700; color: #fff; line-height: 1; letter-spacing: -0.02em; }
+    .pay-due { font-size: 0.78rem; color: rgba(240,225,190,0.7); margin-top: 0.3rem; margin-bottom: 1.2rem; }
+    .pay-btn {
+      display: block; width: 100%; padding: 0.65rem 1rem;
+      border-radius: 0.75rem; font-size: 0.82rem; font-weight: 600;
+      text-decoration: none; text-align: center;
+      background: rgba(220,180,80,0.2); border: 1px solid rgba(220,180,80,0.55);
+      color: #fff; transition: background 0.2s, transform 0.15s;
+    }
+    .pay-btn:hover { background: rgba(220,180,80,0.4); transform: scale(1.03); }
+
+    /* ── SECTIONS ────────────────────────────────────────────── */
+    section { padding: 5.5rem 1.5rem; }
+    .section-inner { max-width: 1080px; margin: 0 auto; }
+    .section-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 4.5vw, 2.9rem); font-weight: 700; color: var(--ink); line-height: 1.2; margin-bottom: 0.6rem; }
+    .section-subtitle { font-size: 1rem; color: var(--ink-mid); font-style: italic; margin-bottom: 2rem; }
+    .gold-bar { width: 56px; height: 3px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 2px; margin: 0.75rem 0 2.25rem; }
+
+    /* ── VILLA ───────────────────────────────────────────────── */
+    #villa { background: var(--sand); }
+    .villa-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+
+    /* Carousel */
+    .carousel-wrap { border-radius: 1.75rem; overflow: hidden; box-shadow: 0 16px 56px rgba(0,0,0,0.18); background: #e8e4dc; }
+    .carousel-overflow { overflow: hidden; }
+    .carousel-track { display: flex; transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); }
+    .carousel-slide { flex: 0 0 100%; }
+    .carousel-slide img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+    .carousel-controls { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1rem; }
+    .c-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--white); border: 2px solid var(--sand); display: flex; align-items: center; justify-content: center; transition: all 0.2s; color: var(--ink); cursor: pointer; }
+    .c-btn:hover { background: var(--teal); border-color: var(--teal); color: var(--white); }
+    .c-dots { display: flex; gap: 0.5rem; align-items: center; }
+    .c-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(100,90,70,0.3); border: none; cursor: pointer; transition: all 0.2s; padding: 0; }
+    .c-dot.active { background: var(--teal); transform: scale(1.4); }
+
+    /* Villa info */
+    .villa-desc { font-size: 1rem; color: var(--ink-mid); line-height: 1.8; margin-bottom: 1.75rem; }
+    .cost-box { background: linear-gradient(135deg, var(--ivory), var(--blush)); border: 1px solid rgba(184,137,42,0.3); border-radius: 1.5rem; padding: 1.5rem; margin-bottom: 1.75rem; }
+    .cost-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+    .cost-amount { font-family: 'Inter', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--ink); line-height: 1; letter-spacing: -0.02em; }
+    .cost-note { font-size: 0.82rem; color: var(--ink-soft); margin-top: 0.2rem; }
+
+    /* ── BUTTONS ─────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.875rem 2rem; border-radius: 3rem;
+      font-size: 0.875rem; font-weight: 600; letter-spacing: 0.04em;
+      text-decoration: none; transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .btn-teal { background: linear-gradient(135deg, var(--teal), var(--teal-light)); color: var(--white); box-shadow: 0 4px 20px rgba(26,155,140,0.35); }
+    .btn-coral { background: linear-gradient(135deg, var(--coral), var(--pink)); color: var(--white); box-shadow: 0 4px 20px rgba(224,92,58,0.35); }
+    .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--ink); box-shadow: 0 4px 20px rgba(184,137,42,0.35); }
+
+    /* ── AMENITIES ───────────────────────────────────────────── */
+    #amenities { background: var(--ivory); }
+    .amenity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.75rem; }
+    .amenity-card { background: var(--white); border-radius: 1.5rem; padding: 1.75rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border: 1px solid rgba(200,190,170,0.5); }
+    .amenity-card-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 1.1rem; padding-bottom: 0.65rem; border-bottom: 2px solid var(--sand); }
+    .amenity-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .amenity-item { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.875rem; color: var(--ink-mid); line-height: 1.4; }
+    .amenity-tick { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--teal-light)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .amenity-tick svg { width: 11px; height: 11px; }
+    .amenity-plus { background: linear-gradient(135deg, var(--gold), var(--gold-light)); }
+
+    /* ── FLIGHTS ─────────────────────────────────────────────── */
+    #flights { background: var(--ivory); }
+    .flights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+    .flight-card { background: var(--white); border-radius: 1.75rem; padding: 1.75rem; box-shadow: 0 6px 32px rgba(0,0,0,0.1); border: 1px solid rgba(200,190,170,0.5); position: relative; overflow: hidden; }
+    .flight-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+    .flight-card.out::after { background: linear-gradient(90deg, var(--teal), var(--teal-light)); }
+    .flight-card.ret::after { background: linear-gradient(90deg, var(--coral), var(--peach)); }
+    .flight-type { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+    .flight-date { font-size: 0.85rem; font-weight: 600; color: var(--ink-mid); margin-bottom: 1.25rem; }
+    .flight-route { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+    .flight-time { font-family: 'Inter', sans-serif; font-size: 1.9rem; font-weight: 700; color: var(--ink); line-height: 1; letter-spacing: -0.03em; }
+    .flight-iata { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: var(--ink-mid); margin-top: 0.15rem; }
+    .flight-city { font-size: 0.68rem; color: var(--ink-soft); }
+    .flight-mid { flex: 1; text-align: center; }
+    .flight-line-row { display: flex; align-items: center; gap: 0; margin-bottom: 0.2rem; }
+    .flight-line { flex: 1; height: 1px; background: rgba(100,90,70,0.2); }
+    .flight-direct { font-size: 0.68rem; color: var(--ink-soft); }
+    .flight-airline { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.65rem; padding-top: 0.65rem; border-top: 1px solid var(--sand); }
+    .flight-overnight { font-size: 0.7rem; color: var(--coral); font-weight: 700; }
+
+    /* Price box */
+    .price-box { background: linear-gradient(135deg, var(--ivory), var(--blush)); border: 1px solid rgba(184,137,42,0.3); border-radius: 1.5rem; padding: 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .price-num { font-family: 'Inter', sans-serif; font-size: 3.2rem; font-weight: 700; color: var(--ink); line-height: 1; letter-spacing: -0.03em; }
+    .price-pp { font-size: 0.82rem; color: var(--ink-soft); }
+    .price-note { font-size: 0.82rem; color: var(--ink-mid); max-width: 270px; }
+
+    /* Baggage */
+    .baggage-title { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 600; color: var(--ink); margin-bottom: 1.1rem; }
+    .baggage-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .bag-card { flex: 1; min-width: 90px; background: var(--white); border: 2px solid rgba(200,190,170,0.5); border-radius: 1.5rem; padding: 1.1rem 1rem; text-align: center; position: relative; transition: border-color 0.2s, transform 0.2s; }
+    .bag-card:hover { transform: translateY(-2px); border-color: var(--teal); }
+    .bag-card.pop { border-color: var(--coral); background: rgba(224,92,58,0.04); }
+    .bag-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg, var(--coral), var(--pink)); color: var(--white); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.7rem; border-radius: 2rem; white-space: nowrap; }
+    .bag-kg { font-family: 'Inter', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
+    .bag-price { font-size: 1rem; font-weight: 600; color: var(--ink-mid); margin-top: 0.2rem; }
+    .bag-label { font-size: 0.68rem; color: var(--ink-soft); margin-top: 0.1rem; }
+
+    /* Notice boxes */
+    .notice { background: rgba(26,155,140,0.08); border-left: 3px solid var(--teal); border-radius: 0 1.25rem 1.25rem 0; padding: 1rem 1.5rem; font-size: 0.875rem; color: var(--ink-mid); margin-top: 1.25rem; }
+    .warning { background: rgba(224,92,58,0.07); border-left: 3px solid var(--coral); border-radius: 0 1.25rem 1.25rem 0; padding: 1rem 1.5rem; font-size: 0.875rem; color: var(--ink-mid); margin-top: 0.75rem; }
+    .notice strong, .warning strong { color: var(--ink); }
+
+    /* ── VIBE ────────────────────────────────────────────────── */
+    #vibe { background: linear-gradient(160deg, rgba(26,155,140,0.09), rgba(224,92,58,0.06), var(--ivory) 70%); }
+    .vibe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.25rem; margin-top: 2.25rem; }
+    .vibe-card { background: var(--white); border-radius: 1.75rem; padding: 1.75rem 1.1rem; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.07); transition: transform 0.3s, box-shadow 0.3s; }
+    .vibe-card:hover { transform: translateY(-6px) rotate(-1deg); box-shadow: 0 8px 32px rgba(0,0,0,0.14); }
+    .vibe-icon { width: 52px; height: 52px; border-radius: 50%; margin: 0 auto 0.9rem; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; }
+    .vibe-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 600; color: var(--ink); margin-bottom: 0.35rem; }
+    .vibe-desc { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.5; }
+
+    /* ── IMPORTANT ───────────────────────────────────────────── */
+    #important { background: var(--sand); }
+    .disclaimer { background: var(--white); border-radius: 1.75rem; padding: 2.25rem; box-shadow: 0 6px 32px rgba(0,0,0,0.1); border: 1px solid rgba(184,137,42,0.25); }
+    .disclaimer-icon { width: 46px; height: 46px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1.1rem; }
+    .disclaimer p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.8; margin-bottom: 0.9rem; }
+    .disclaimer p:last-child { margin-bottom: 0; }
+    .disclaimer strong { color: var(--ink); }
+
+    /* ── SQUAD ───────────────────────────────────────────────── */
+    #girls { background: linear-gradient(160deg, rgba(26,155,140,0.1), rgba(232,136,42,0.07), var(--ivory) 70%); }
+    .girls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 1.1rem; margin-top: 2.25rem; }
+    .girl-card { background: var(--white); border-radius: 1.75rem; padding: 1.6rem 1rem 1.4rem; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.07); border: 1px solid rgba(200,190,170,0.5); position: relative; transition: transform 0.3s, box-shadow 0.3s; }
+    .girl-card:hover { transform: translateY(-5px); box-shadow: 0 8px 28px rgba(0,0,0,0.13); }
+    .girl-card.bday { border-color: var(--gold); background: linear-gradient(160deg, rgba(184,137,42,0.06), var(--white)); }
+    .girl-crown { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; }
+    .girl-avatar { width: 50px; height: 50px; border-radius: 50%; margin: 0 auto 0.9rem; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--white); }
+    .girl-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; }
+    .girl-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+    .girl-card.bday .girl-tag { color: var(--gold-dark); }
+
+    /* ── GROUP CTA ───────────────────────────────────────────── */
+    #group { background: linear-gradient(135deg, var(--teal), #0e7a6e); text-align: center; }
+    #group .section-title { color: var(--white); }
+    #group .section-subtitle { color: rgba(220,255,250,0.85); }
+    #group .gold-bar { margin: 0.75rem auto 2.25rem; }
+    .group-desc { font-size: 1rem; color: rgba(220,255,250,0.85); max-width: 500px; margin: 0 auto 2.25rem; line-height: 1.8; }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    footer { background: var(--ink); color: rgba(200,190,160,0.8); padding: 2.5rem 1.5rem; text-align: center; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.08em; color: var(--gold-light); margin-bottom: 0.6rem; }
+    .footer-bar { width: 40px; height: 1px; background: rgba(184,137,42,0.35); margin: 1.1rem auto; }
+    .footer-sub { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(160,150,120,0.7); }
+    .footer-note { font-size: 0.75rem; color: rgba(120,110,90,0.8); margin-top: 0.75rem; }
+
+    /* ── SCROLL REVEAL ───────────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 760px) {
+      .nav-links { display: none; flex-direction: column; gap: 0.9rem; }
+      .nav-links.open { display: flex; position: absolute; top: 100%; left: 0; right: 0; background: rgba(250,247,242,0.97); backdrop-filter: blur(16px); padding: 1.5rem 2rem; border-bottom: 1px solid rgba(184,137,42,0.2); z-index: 200; }
+      .nav-toggle { display: flex; }
+      .payment-cards { grid-template-columns: 1fr; }
+      .villa-layout { grid-template-columns: 1fr; }
+      .flights-grid { grid-template-columns: 1fr; }
+      .price-box { flex-direction: column; }
+      .baggage-row { flex-direction: column; }
+      .dr-flag { width: 220px; height: 147px; }
+      .palm-left  { width: 160px; height: 340px; left: -10px; }
+      .palm-right { width: 160px; height: 340px; right: -10px; }
+    }
+    @media (max-width: 480px) {
+      .countdown { gap: 0.6rem; }
+      .cd-unit { min-width: 62px; padding: 0.7rem; }
+      .cd-num { font-size: 1.65rem; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" style="position:absolute;top:-60px;left:1rem;background:var(--ink);color:#fff;padding:0.5rem 1rem;border-radius:0.5rem;z-index:9999;transition:top 0.2s;font-size:0.875rem;" onfocus="this.style.top='1rem'" onblur="this.style.top='-60px'">Skip to main content</a>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">#JW30</a>
+  <button class="nav-toggle" aria-expanded="false" aria-label="Open menu" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true'); document.getElementById('nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#villa" onclick="document.getElementById('nav-links').classList.remove('open')">Villa</a></li>
+    <li><a href="#flights" onclick="document.getElementById('nav-links').classList.remove('open')">Flights</a></li>
+    <li><a href="#vibe" onclick="document.getElementById('nav-links').classList.remove('open')">Vibe</a></li>
+    <li><a href="#important" onclick="document.getElementById('nav-links').classList.remove('open')">Info</a></li>
+    <li><a href="#girls" onclick="document.getElementById('nav-links').classList.remove('open')">The Squad</a></li>
+    <li><a href="#group" onclick="document.getElementById('nav-links').classList.remove('open')">Group</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-horizon"></div>
+  <div class="hero-water"></div>
+
+  <!-- DR Flag -->
+  <div class="dr-flag-wrap" aria-label="Dominican Republic flag">
+    <svg class="dr-flag" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+      <rect width="900" height="600" fill="#002D62"/>
+      <rect x="450" y="0" width="450" height="300" fill="#CF142B"/>
+      <rect x="0" y="300" width="450" height="300" fill="#CF142B"/>
+      <rect x="387" y="0" width="126" height="600" fill="white"/>
+      <rect x="0" y="237" width="900" height="126" fill="white"/>
+      <circle cx="450" cy="300" r="52" fill="white" opacity="0.95"/>
+      <circle cx="450" cy="300" r="46" fill="#002D62"/>
+      <path d="M404 300 Q404 258 450 258 L450 300 Z" fill="#CF142B"/>
+      <path d="M450 300 Q492 300 492 258 Q492 258 450 258 Z" fill="white"/>
+      <path d="M404 300 L450 300 Q450 342 404 342 Z" fill="white"/>
+      <path d="M450 300 L492 300 Q492 342 450 342 Z" fill="#CF142B"/>
+      <rect x="444" y="264" width="12" height="72" fill="white" opacity="0.85"/>
+      <rect x="420" y="288" width="60" height="12" fill="white" opacity="0.85"/>
+    </svg>
+  </div>
+
+  <!-- Palm trees -->
+  <div class="hero-palms" aria-hidden="true">
+    <!-- Left palm: shorter trunk, wide crown -->
+    <svg class="palm palm-left" viewBox="0 0 260 380" xmlns="http://www.w3.org/2000/svg">
+      <!-- Trunk: shorter, slightly curved -->
+      <path d="M80 380 Q83 310 87 240 Q91 180 96 140 Q99 118 102 100" stroke="#9a9888" stroke-width="16" stroke-linecap="round" fill="none"/>
+      <path d="M80 380 Q83 310 87 240 Q91 180 96 140 Q99 118 102 100" stroke="#d8d4c0" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.5"/>
+      <!-- Trunk rings -->
+      <path d="M82 340 Q88 337 94 340" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M83 300 Q89 297 95 300" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M85 260 Q91 257 97 260" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M87 220 Q93 217 99 220" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M90 185 Q96 182 102 185" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M94 152 Q100 149 106 152" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M98 120 Q104 117 110 120" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+
+      <!-- FRONDS — wide, bold, long, drooping from crown at (102,100) -->
+      <!-- Frond 1: hard left sweep, very wide, long droop -->
+      <path d="M102 100 C75 82 35 58 -20 38 C-55 24 -88 22 -92 32 C-78 36 -42 42 8 62 C58 82 86 94 102 100Z" fill="#267014"/>
+      <path d="M102 100 C75 82 35 58 -20 38 C-55 24 -88 22 -92 32" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
+
+      <!-- Frond 2: upper-left arch -->
+      <path d="M102 100 C86 65 72 22 66 -22 C63 -38 56 -42 53 -35 C58 -12 70 28 88 68 C95 84 100 94 102 100Z" fill="#2e7c18"/>
+      <path d="M102 100 C86 65 72 22 66 -22 C63 -38 56 -42 53 -35" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
+
+      <!-- Frond 3: straight up -->
+      <path d="M102 100 C100 64 101 24 99 -18 C98 -32 105 -35 108 -28 C110 12 106 58 102 100Z" fill="#267014"/>
+
+      <!-- Frond 4: upper-right -->
+      <path d="M102 100 C118 68 146 34 180 4 C190 -6 197 -5 196 4 C184 14 154 46 128 78 C116 90 108 97 102 100Z" fill="#2e7c18"/>
+      <path d="M102 100 C118 68 146 34 180 4 C190 -6 197 -5 196 4" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
+
+      <!-- Frond 5: far right, very wide -->
+      <path d="M102 100 C135 84 182 70 238 62 C262 58 274 66 271 77 C250 78 206 88 154 102 C128 110 110 108 102 100Z" fill="#267014"/>
+      <path d="M102 100 C135 84 182 70 238 62 C262 58 274 66 271 77" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
+
+      <!-- Frond 6: lower-right drooping -->
+      <path d="M102 100 C130 114 165 134 204 162 C228 180 238 198 230 208 C218 200 202 180 168 158 C132 134 112 116 102 100Z" fill="#2e7c18"/>
+      <path d="M102 100 C130 114 165 134 204 162 C228 180 238 198 230 208" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
+
+      <!-- Frond 7: droops far lower-right -->
+      <path d="M102 100 C120 126 144 162 168 210 C180 236 182 260 174 265 C164 256 160 230 144 202 C124 162 110 128 102 100Z" fill="#267014"/>
+
+      <!-- Frond 8: drops straight down -->
+      <path d="M102 100 C98 128 92 165 84 208 C78 240 74 262 66 266 C62 256 68 232 74 196 C80 158 86 126 102 100Z" fill="#2e7c18"/>
+
+      <!-- Frond 9: lower-left droop -->
+      <path d="M102 100 C80 116 48 138 8 165 C-18 182 -34 198 -30 208 C-18 202 2 184 32 164 C68 140 88 118 102 100Z" fill="#267014"/>
+      <path d="M102 100 C80 116 48 138 8 165 C-18 182 -34 198 -30 208" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
+
+      <!-- Coconuts -->
+      <circle cx="98" cy="108" r="10" fill="#5a3a10"/>
+      <circle cx="111" cy="103" r="9" fill="#4e3208"/>
+      <circle cx="91" cy="104" r="8" fill="#523510"/>
+    </svg>
+
+    <!-- Right palm: exact mirror -->
+    <svg class="palm palm-right" viewBox="0 0 260 380" xmlns="http://www.w3.org/2000/svg">
+      <path d="M80 380 Q83 310 87 240 Q91 180 96 140 Q99 118 102 100" stroke="#9a9888" stroke-width="16" stroke-linecap="round" fill="none"/>
+      <path d="M80 380 Q83 310 87 240 Q91 180 96 140 Q99 118 102 100" stroke="#d8d4c0" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.5"/>
+      <path d="M82 340 Q88 337 94 340" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M83 300 Q89 297 95 300" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M85 260 Q91 257 97 260" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M87 220 Q93 217 99 220" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M90 185 Q96 182 102 185" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M94 152 Q100 149 106 152" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M98 120 Q104 117 110 120" stroke="#7a7868" stroke-width="1.5" fill="none"/>
+      <path d="M102 100 C75 82 35 58 -20 38 C-55 24 -88 22 -92 32 C-78 36 -42 42 8 62 C58 82 86 94 102 100Z" fill="#267014"/>
+      <path d="M102 100 C75 82 35 58 -20 38 C-55 24 -88 22 -92 32" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
+      <path d="M102 100 C86 65 72 22 66 -22 C63 -38 56 -42 53 -35 C58 -12 70 28 88 68 C95 84 100 94 102 100Z" fill="#2e7c18"/>
+      <path d="M102 100 C86 65 72 22 66 -22 C63 -38 56 -42 53 -35" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
+      <path d="M102 100 C100 64 101 24 99 -18 C98 -32 105 -35 108 -28 C110 12 106 58 102 100Z" fill="#267014"/>
+      <path d="M102 100 C118 68 146 34 180 4 C190 -6 197 -5 196 4 C184 14 154 46 128 78 C116 90 108 97 102 100Z" fill="#2e7c18"/>
+      <path d="M102 100 C118 68 146 34 180 4 C190 -6 197 -5 196 4" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
+      <path d="M102 100 C135 84 182 70 238 62 C262 58 274 66 271 77 C250 78 206 88 154 102 C128 110 110 108 102 100Z" fill="#267014"/>
+      <path d="M102 100 C135 84 182 70 238 62 C262 58 274 66 271 77" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
+      <path d="M102 100 C130 114 165 134 204 162 C228 180 238 198 230 208 C218 200 202 180 168 158 C132 134 112 116 102 100Z" fill="#2e7c18"/>
+      <path d="M102 100 C130 114 165 134 204 162 C228 180 238 198 230 208" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
+      <path d="M102 100 C120 126 144 162 168 210 C180 236 182 260 174 265 C164 256 160 230 144 202 C124 162 110 128 102 100Z" fill="#267014"/>
+      <path d="M102 100 C98 128 92 165 84 208 C78 240 74 262 66 266 C62 256 68 232 74 196 C80 158 86 126 102 100Z" fill="#2e7c18"/>
+      <path d="M102 100 C80 116 48 138 8 165 C-18 182 -34 198 -30 208 C-18 202 2 184 32 164 C68 140 88 118 102 100Z" fill="#267014"/>
+      <path d="M102 100 C80 116 48 138 8 165 C-18 182 -34 198 -30 208" stroke="#4aaa25" stroke-width="2.5" fill="none" opacity="0.7"/>
+      <circle cx="98" cy="108" r="10" fill="#5a3a10"/>
+      <circle cx="111" cy="103" r="9" fill="#4e3208"/>
+      <circle cx="91" cy="104" r="8" fill="#523510"/>
+    </svg>
+  </div>
+
+  <!-- Wave -->
+  <div class="hero-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,35 C360,70 1080,0 1440,35 L1440,70 L0,70 Z" fill="#faf7f2"/>
+    </svg>
+  </div>
+
+  <!-- Content -->
+  <div class="hero-content">
+    <p class="hero-eyebrow">10 – 17 September 2026 · Punta Cana</p>
+    <h1 class="hero-title">#JW30</h1>
+    <p class="hero-sub">Punta Cana 2026</p>
+    <p class="hero-tagline">Soft life. Sunshine. Laughter. Celebration.</p>
+
+    <!-- Countdown -->
+    <div class="countdown" id="countdown">
+      <div class="cd-unit"><span class="cd-num" id="cd-d">000</span><span class="cd-label">Days</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-h">00</span><span class="cd-label">Hours</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-m">00</span><span class="cd-label">Mins</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-s">00</span><span class="cd-label">Secs</span></div>
+    </div>
+
+    <!-- Payment cards -->
+    <div class="payment-cards">
+      <article class="pay-card">
+        <p class="pay-tag">Deposit</p>
+        <p class="pay-amount">£50</p>
+        <p class="pay-due">Due: 8th May 2026</p>
+        <a href="https://settleup.starlingbank.com/jasmine-watson-69f904?amount=50.00" target="_blank" rel="noopener noreferrer" class="pay-btn">Pay Deposit</a>
+      </article>
+      <article class="pay-card">
+        <p class="pay-tag">First Payment</p>
+        <p class="pay-amount">£120</p>
+        <p class="pay-due">Due: 16th May 2026</p>
+        <a href="https://settleup.starlingbank.com/jasmine-watson-69f904?amount=120.00" target="_blank" rel="noopener noreferrer" class="pay-btn">Pay First Installment</a>
+      </article>
+      <article class="pay-card">
+        <p class="pay-tag">Final Payment</p>
+        <p class="pay-amount">£170</p>
+        <p class="pay-due">Due: 16th June 2026</p>
+        <a href="https://settleup.starlingbank.com/jasmine-watson-69f904?amount=170.00" target="_blank" rel="noopener noreferrer" class="pay-btn">Pay Final Balance</a>
+      </article>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- VILLA -->
+<section id="villa">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal">Accommodation</p>
+    <h2 class="section-title reveal">The Villa – Villa ORO</h2>
+    <p class="section-subtitle reveal">Private beach. Soft life. No stress.</p>
+    <div class="gold-bar reveal"></div>
+    <div class="villa-layout">
+      <!-- Carousel -->
+      <div class="reveal">
+        <div class="carousel-wrap">
+          <div class="carousel-overflow">
+            <div class="carousel-track" id="carouselTrack">
+              <div class="carousel-slide"><img src="images/villa-1.avif" alt="Villa ORO exterior with palm trees" /></div>
+              <div class="carousel-slide"><img src="images/villa-2.avif" alt="Villa ORO luxury dining area" /></div>
+              <div class="carousel-slide"><img src="images/villa-3.avif" alt="Villa ORO private chef kitchen" /></div>
+              <div class="carousel-slide"><img src="images/villa-4.avif" alt="Villa ORO private pool at night" /></div>
+              <div class="carousel-slide"><img src="images/villa-5.avif" alt="Villa ORO master bedroom" /></div>
+              <div class="carousel-slide"><img src="images/villa-6.avif" alt="Villa ORO outdoor terrace" /></div>
+            </div>
+          </div>
+          <div class="carousel-controls">
+            <button class="c-btn" id="cPrev" aria-label="Previous photo">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="c-dots" id="cDots"></div>
+            <button class="c-btn" id="cNext" aria-label="Next photo">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Info -->
+      <div>
+        <p class="villa-desc reveal">Villa ORO is a luxury private villa designed for the ultimate soft life experience. With a private beach just minutes away, spacious living areas, and premium finishes throughout, this is where the girls will relax, reset, and celebrate properly.</p>
+        <div class="cost-box reveal">
+          <p class="cost-label">Total cost per person</p>
+          <p class="cost-amount">£340</p>
+          <p class="cost-note">Split across 3 payments</p>
+        </div>
+        <a href="https://www.airbnb.co.uk/rooms/1608756599508156707?adults=6&check_in=2026-09-10&check_out=2026-09-17&guests=6" target="_blank" rel="noopener noreferrer" class="btn btn-teal reveal">
+          View Villa
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AMENITIES -->
+<section id="amenities">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal">What's Included</p>
+    <h2 class="section-title reveal">Villa Amenities</h2>
+    <div class="gold-bar reveal"></div>
+    <div class="amenity-grid">
+
+      <div class="amenity-card reveal">
+        <h3 class="amenity-card-title">Core Experience</h3>
+        <ul class="amenity-list">
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Private beach (2-min walk)</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>24-hour VIP concierge</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Daily cleaning</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>24-hour security &amp; parking</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Free gym access (with trainer)</li>
+        </ul>
+      </div>
+
+      <div class="amenity-card reveal">
+        <h3 class="amenity-card-title">Villa Features</h3>
+        <ul class="amenity-list">
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>4 luxury bedrooms with en-suites</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>King-size beds &amp; premium linens</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Smart TVs (Netflix &amp; YouTube)</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Full air conditioning</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Spacious living &amp; dining areas</li>
+        </ul>
+      </div>
+
+      <div class="amenity-card reveal">
+        <h3 class="amenity-card-title">Kitchen &amp; Living</h3>
+        <ul class="amenity-list">
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Fully equipped modern kitchen</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Large fridge &amp; freezer</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>BBQ in pool area</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Indoor &amp; outdoor dining spaces</li>
+        </ul>
+      </div>
+
+      <div class="amenity-card reveal">
+        <h3 class="amenity-card-title">Lifestyle Perks</h3>
+        <ul class="amenity-list">
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Restaurants, cafes &amp; supermarket on-site</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Free delivery from restaurants &amp; shops</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Discounts at selected restaurants</li>
+          <li class="amenity-item"><span class="amenity-tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Spa &amp; beauty salon nearby</li>
+        </ul>
+      </div>
+
+      <div class="amenity-card reveal">
+        <h3 class="amenity-card-title">Optional Extras</h3>
+        <p style="font-size:0.75rem;color:var(--ink-soft);margin-bottom:0.7rem;">Additional cost — ask for details</p>
+        <ul class="amenity-list">
+          <li class="amenity-item"><span class="amenity-tick amenity-plus"><svg viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></span>Private chef</li>
+          <li class="amenity-item"><span class="amenity-tick amenity-plus"><svg viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></span>Airport pick-up</li>
+          <li class="amenity-item"><span class="amenity-tick amenity-plus"><svg viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></span>Golf cart / jeep rental</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FLIGHTS -->
+<section id="flights" style="background: linear-gradient(160deg, rgba(26,155,140,0.07) 0%, var(--ivory) 60%);">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal">Getting There</p>
+    <h2 class="section-title reveal">Flights</h2>
+    <p class="section-subtitle reveal">Please book this exact flight so everyone arrives together.</p>
+    <div class="gold-bar reveal"></div>
+
+    <div class="flights-grid reveal">
+      <article class="flight-card out">
+        <p class="flight-type">Outbound</p>
+        <p class="flight-date">Thu 10 September 2026</p>
+        <div class="flight-route">
+          <div>
+            <p class="flight-time">10:30</p>
+            <p class="flight-iata">LGW</p>
+            <p class="flight-city">London Gatwick</p>
+          </div>
+          <div class="flight-mid">
+            <div class="flight-line-row">
+              <div class="flight-line"></div>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="color:var(--teal)"><path d="M4 10 C6 4 14 4 16 10" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M13 7l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="flight-line"></div>
+            </div>
+            <p class="flight-direct">Direct · 9h 00m</p>
+          </div>
+          <div style="text-align:right">
+            <p class="flight-time">14:30</p>
+            <p class="flight-iata" style="text-align:right">PUJ</p>
+            <p class="flight-city" style="text-align:right">Punta Cana</p>
+          </div>
+        </div>
+        <p class="flight-airline">TUI Airways</p>
+      </article>
+
+      <article class="flight-card ret">
+        <p class="flight-type" style="color:var(--coral)">Return</p>
+        <p class="flight-date">Thu 17 September 2026</p>
+        <div class="flight-route">
+          <div>
+            <p class="flight-time">16:40</p>
+            <p class="flight-iata">PUJ</p>
+            <p class="flight-city">Punta Cana</p>
+          </div>
+          <div class="flight-mid">
+            <div class="flight-line-row">
+              <div class="flight-line"></div>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="color:var(--coral)"><path d="M4 10 C6 4 14 4 16 10" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M13 7l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="flight-line"></div>
+            </div>
+            <p class="flight-direct">Direct · 8h 20m</p>
+          </div>
+          <div style="text-align:right">
+            <p class="flight-time">06:00</p>
+            <p class="flight-overnight">+1 day</p>
+            <p class="flight-iata" style="text-align:right">LGW</p>
+            <p class="flight-city" style="text-align:right">London Gatwick</p>
+          </div>
+        </div>
+        <p class="flight-airline">TUI Airways</p>
+      </article>
+    </div>
+
+    <div class="price-box reveal">
+      <div>
+        <p class="price-pp">From</p>
+        <p class="price-num">£740<span style="font-size:1.1rem;font-weight:400;">pp</span></p>
+        <p style="font-size:0.8rem;color:var(--ink-soft);margin-top:0.2rem;">Checked luggage not included</p>
+      </div>
+      <p class="price-note">Please book your flights by <strong>July 2026</strong> to secure this price. Always confirm the cost on TUI before booking.</p>
+      <a href="https://www.tui.co.uk/flight/book/flightoptions?selectedFlight=TOM07461943933696792559TOM07561943935676792560" target="_blank" rel="noopener noreferrer" class="btn btn-coral">
+        Book This Flight
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="reveal">
+      <h3 class="baggage-title">Baggage Options</h3>
+      <div class="baggage-row">
+        <div class="bag-card"><p class="bag-kg">0kg</p><p class="bag-price">£740</p><p class="bag-label">No luggage</p></div>
+        <div class="bag-card"><p class="bag-kg">15kg</p><p class="bag-price">£815</p><p class="bag-label">Small bag</p></div>
+        <div class="bag-card pop"><span class="bag-badge">Most Popular</span><p class="bag-kg">20kg</p><p class="bag-price">£831</p><p class="bag-label">Standard</p></div>
+        <div class="bag-card"><p class="bag-kg">25kg</p><p class="bag-price">£837</p><p class="bag-label">Extra space</p></div>
+        <div class="bag-card"><p class="bag-kg">30kg</p><p class="bag-price">£861</p><p class="bag-label">Heavy packer</p></div>
+      </div>
+      <div class="notice"><strong>Prices may change</strong> — please confirm the final cost on TUI before booking. Flights can be paid in full or via <strong>PayPal Pay in 3</strong> (subject to PayPal approval).</div>
+      <div class="warning"><strong>Important:</strong> If you choose a different flight, you will be responsible for your own airport transfers.</div>
+    </div>
+  </div>
+</section>
+
+<!-- VIBE -->
+<section id="vibe">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal">What to Expect</p>
+    <h2 class="section-title reveal">The Vibe</h2>
+    <p class="section-subtitle reveal">Seven nights. Eight girls. Zero stress. All memories.</p>
+    <div class="gold-bar reveal"></div>
+    <div class="vibe-grid">
+      <div class="vibe-card reveal"><div class="vibe-icon" style="background:rgba(26,155,140,0.12);">🏖️</div><p class="vibe-name">Beach Days</p><p class="vibe-desc">Sun, sand, and sea. Caribbean blue as far as the eye can see.</p></div>
+      <div class="vibe-card reveal"><div class="vibe-icon" style="background:rgba(224,92,58,0.1);">🌅</div><p class="vibe-name">Sunset Dinners</p><p class="vibe-desc">Golden hour looks. Rosé in hand. Honestly unfair.</p></div>
+      <div class="vibe-card reveal"><div class="vibe-icon" style="background:rgba(26,155,140,0.1);">🍹</div><p class="vibe-name">Cocktails</p><p class="vibe-desc">Fruity, tropical, ridiculous. One for the group chat.</p></div>
+      <div class="vibe-card reveal"><div class="vibe-icon" style="background:rgba(212,45,110,0.1);">🎵</div><p class="vibe-name">Music &amp; Dancing</p><p class="vibe-desc">Playlist sorted. Dance moves? We'll figure it out together.</p></div>
+      <div class="vibe-card reveal"><div class="vibe-icon" style="background:rgba(184,137,42,0.12);">⛵</div><p class="vibe-name">Yacht Day</p><p class="vibe-desc">Out on the water. Blue skies. Champagne on deck. Obviously.</p></div>
+      <div class="vibe-card reveal"><div class="vibe-icon" style="background:rgba(184,137,42,0.12);">👑</div><p class="vibe-name">Celebrating JW</p><p class="vibe-desc">30 years of being absolutely iconic. We celebrate properly.</p></div>
+      <div class="vibe-card reveal"><div class="vibe-icon" style="background:rgba(26,155,140,0.1);">✨</div><p class="vibe-name">Soft Life</p><p class="vibe-desc">No alarms. No stress. Just pure luxury and good vibes.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPORTANT -->
+<section id="important">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal">Please Read</p>
+    <h2 class="section-title reveal">Important Information</h2>
+    <div class="gold-bar reveal"></div>
+    <div class="disclaimer reveal">
+      <div class="disclaimer-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z" stroke="white" stroke-width="1.5" fill="none"/><path d="M12 11v5M12 8v1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <p>All guests are responsible for their share of the accommodation costs. In the unlikely event that you are no longer able to attend the trip, you will still be liable for your portion of the accommodation <strong>unless a replacement is found to take your place.</strong></p>
+      <p><strong>Please ensure you are fully committed before making any payments.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- THE SQUAD -->
+<section id="girls">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal">The Squad</p>
+    <h2 class="section-title reveal">Who's Coming</h2>
+    <p class="section-subtitle reveal">Eight girls. One villa. No excuses.</p>
+    <div class="gold-bar reveal"></div>
+    <div class="girls-grid">
+      <div class="girl-card bday reveal"><span class="girl-crown">👑</span><div class="girl-avatar" style="background:linear-gradient(135deg,#b8892a,#d4a843);">J</div><p class="girl-name">Jasmine</p><p class="girl-tag">Birthday Girl</p></div>
+      <div class="girl-card reveal"><div class="girl-avatar" style="background:linear-gradient(135deg,#1a9b8c,#2ec4b0);">F</div><p class="girl-name">Faith</p><p class="girl-tag">The Girls</p></div>
+      <div class="girl-card reveal"><div class="girl-avatar" style="background:linear-gradient(135deg,#e05c3a,#f0a060);">L</div><p class="girl-name">Linda</p><p class="girl-tag">The Girls</p></div>
+      <div class="girl-card reveal"><div class="girl-avatar" style="background:linear-gradient(135deg,#d42d6e,#e8882a);">I</div><p class="girl-name">Isabel</p><p class="girl-tag">The Girls</p></div>
+      <div class="girl-card reveal"><div class="girl-avatar" style="background:linear-gradient(135deg,#1a9b8c,#80c880);">S</div><p class="girl-name">Samie</p><p class="girl-tag">The Girls</p></div>
+      <div class="girl-card reveal"><div class="girl-avatar" style="background:linear-gradient(135deg,#e05c3a,#d42d6e);">J</div><p class="girl-name">Jodie</p><p class="girl-tag">The Girls</p></div>
+      <div class="girl-card reveal"><div class="girl-avatar" style="background:linear-gradient(135deg,#e8882a,#f0a060);">R</div><p class="girl-name">Reanne</p><p class="girl-tag">The Girls</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GROUP CTA -->
+<section id="group">
+  <div class="section-inner">
+    <p class="section-eyebrow" style="color:rgba(180,255,240,0.8);">8 Girls. 1 Villa. Infinite Memories.</p>
+    <h2 class="section-title">Stay Connected</h2>
+    <div class="gold-bar"></div>
+    <p class="group-desc">Everything you need is in the group chat — updates, reminders, hype, and the occasional voice note from Jasmine pretending she's calm about her birthday.</p>
+    <a href="https://chat.whatsapp.com/EjKOyPm4YNkDOksoA88dHl?mode=gi_t" target="_blank" rel="noopener noreferrer" class="btn btn-gold">
+      Join the Group Chat
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-logo">#JW30</p>
+  <div class="footer-bar"></div>
+  <p class="footer-sub">Punta Cana 2026 &nbsp;·&nbsp; 10 – 17 September</p>
+  <p class="footer-note">Made with love for Jasmine's 30th. Soft life only. 🌴</p>
+</footer>
+
+<script>
+// Countdown
+(function(){
+  var t = new Date('2026-09-10T10:30:00').getTime();
+  function tick(){
+    var diff = t - Date.now();
+    if(diff<0) diff=0;
+    var d=Math.floor(diff/86400000), h=Math.floor(diff%86400000/3600000), m=Math.floor(diff%3600000/60000), s=Math.floor(diff%60000/1000);
+    document.getElementById('cd-d').textContent=String(d).padStart(3,'0');
+    document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+    document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+    document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
+  }
+  tick(); setInterval(tick,1000);
+})();
+
+// Carousel
+(function(){
+  var track=document.getElementById('carouselTrack');
+  var slides=track.querySelectorAll('.carousel-slide');
+  var dots=document.getElementById('cDots');
+  var cur=0, total=slides.length, timer;
+  for(var i=0;i<total;i++){
+    var b=document.createElement('button');
+    b.className='c-dot'+(i===0?' active':'');
+    b.setAttribute('aria-label','Slide '+(i+1));
+    b.dataset.i=i;
+    b.onclick=function(){goTo(+this.dataset.i);};
+    dots.appendChild(b);
+  }
+  function goTo(n){
+    if(n<0)n=total-1; if(n>=total)n=0;
+    cur=n;
+    track.style.transform='translateX(-'+cur*100+'%)';
+    dots.querySelectorAll('.c-dot').forEach(function(d,i){d.classList.toggle('active',i===cur);});
+    clearInterval(timer); timer=setInterval(function(){goTo(cur+1);},4500);
+  }
+  document.getElementById('cPrev').onclick=function(){goTo(cur-1);};
+  document.getElementById('cNext').onclick=function(){goTo(cur+1);};
+  var sx=0;
+  track.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+  track.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40)goTo(dx<0?cur+1:cur-1);});
+  goTo(0);
+})();
+
+// Scroll reveal
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
+  },{threshold:0.1,rootMargin:'0px 0px -30px 0px'});
+  els.forEach(function(el){obs.observe(el);});
+})();
+</script>
+</body>
+</html>
