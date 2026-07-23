@@ -303,17 +303,77 @@
     .disclaimer p:last-child { margin-bottom: 0; }
     .disclaimer strong { color: var(--ink); }
 
-    /* ── SQUAD ───────────────────────────────────────────────── */
-    #girls { background: linear-gradient(160deg, rgba(26,155,140,0.1), rgba(232,136,42,0.07), var(--ivory) 70%); }
-    .girls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 1.1rem; margin-top: 2.25rem; }
-    .girl-card { background: var(--white); border-radius: 1.75rem; padding: 1.6rem 1rem 1.4rem; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.07); border: 1px solid rgba(200,190,170,0.5); position: relative; transition: transform 0.3s, box-shadow 0.3s; }
-    .girl-card:hover { transform: translateY(-5px); box-shadow: 0 8px 28px rgba(0,0,0,0.13); }
-    .girl-card.bday { border-color: var(--gold); background: linear-gradient(160deg, rgba(184,137,42,0.06), var(--white)); }
-    .girl-crown { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; }
-    .girl-avatar { width: 50px; height: 50px; border-radius: 50%; margin: 0 auto 0.9rem; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--white); }
-    .girl-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; }
-    .girl-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
-    .girl-card.bday .girl-tag { color: var(--gold-dark); }
+    /* ── MEET THE GIRLS ──────────────────────────────────────── */
+    #girls { position: relative; overflow: hidden; background: linear-gradient(165deg, rgba(26,155,140,0.12) 0%, rgba(212,45,110,0.06) 40%, rgba(232,136,42,0.08) 70%, var(--ivory) 100%); }
+    #girls .section-inner { position: relative; z-index: 2; }
+    /* tropical backdrop */
+    .mtg-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .mtg-bg::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 55% at 50% -10%, rgba(240,160,96,0.22), transparent 60%); }
+    .mtg-palm { position: absolute; bottom: -30px; opacity: 0.09; filter: grayscale(0.2); }
+    .mtg-palm.l { left: -70px; width: 300px; transform: scaleX(-1); }
+    .mtg-palm.r { right: -70px; width: 300px; }
+    .mtg-title-emoji { -webkit-text-fill-color: initial; }
+    /* carousel */
+    .mtg-carousel { position: relative; margin-top: 2.5rem; }
+    .mtg-viewport { overflow: hidden; padding: 3rem 0 3.5rem; }
+    .mtg-track { display: flex; gap: 1.5rem; transition: transform 0.6s cubic-bezier(0.22,0.61,0.36,1); will-change: transform; }
+    .mtg-card { flex: 0 0 var(--mtg-cardw, 82%); position: relative; transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,0.61,0.36,1); opacity: 0.28; transform: scale(0.84); }
+    .mtg-card.active { opacity: 1; transform: scale(1); }
+    .mtg-glow { position: absolute; inset: -3px; border-radius: calc(1.85rem + 3px); background: linear-gradient(135deg, var(--coral), var(--gold-light), var(--teal-light), var(--pink)); background-size: 300% 300%; opacity: 0; transition: opacity 0.5s ease; z-index: 0; }
+    .mtg-card.active .mtg-glow { opacity: 1; animation: mtgBorder 5s ease infinite; }
+    @keyframes mtgBorder { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    .mtg-card-inner { position: relative; z-index: 1; border-radius: 1.85rem; overflow: hidden; background: rgba(255,255,255,0.55); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.7); box-shadow: 0 14px 44px rgba(80,50,20,0.14); transition: transform 0.45s ease, box-shadow 0.45s ease; }
+    .mtg-card.active .mtg-card-inner { box-shadow: 0 26px 70px rgba(80,50,20,0.24); }
+    .mtg-card-inner:hover { transform: translateY(-6px); box-shadow: 0 26px 70px rgba(80,50,20,0.24); }
+    .mtg-photo { position: relative; aspect-ratio: 4/5; overflow: hidden; background: linear-gradient(135deg, var(--sand), #e6ddce); }
+    .mtg-photo image-slot { position: absolute; inset: 0; transition: transform 0.6s cubic-bezier(0.22,0.61,0.36,1); }
+    .mtg-card-inner:hover .mtg-photo image-slot { transform: scale(1.05); }
+    .mtg-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(20,12,8,0.5) 0%, rgba(20,12,8,0.08) 32%, transparent 55%); pointer-events: none; }
+    .mtg-meta { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 1.4rem 1.5rem 1.5rem; text-align: left; }
+    .mtg-emoji { display: inline-block; font-size: 1.1rem; margin-bottom: 0.35rem; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4)); }
+    .mtg-name { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: #fff; line-height: 1.05; text-shadow: 0 2px 10px rgba(0,0,0,0.55); position: relative; }
+    .mtg-role { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,236,214,0.95); margin-top: 0.4rem; text-shadow: 0 1px 6px rgba(0,0,0,0.5); }
+    /* birthday girl */
+    .mtg-card.bday .mtg-glow { background: linear-gradient(135deg, var(--gold-light), #f6e2a8, var(--gold), var(--coral)); }
+    .mtg-card.bday.active .mtg-glow { box-shadow: 0 0 46px 6px rgba(212,168,67,0.55); }
+    .mtg-card.bday.active .mtg-card-inner { box-shadow: 0 26px 70px rgba(150,110,30,0.3); }
+    .mtg-badge { position: absolute; top: 1rem; left: 50%; transform: translateX(-50%) translateY(-8px) scale(0.9); z-index: 3; display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(212,168,67,0.95), rgba(184,137,42,0.95)); border: 1px solid rgba(255,240,200,0.7); box-shadow: 0 6px 20px rgba(120,80,10,0.35); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #fff; white-space: nowrap; opacity: 0; transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1); pointer-events: none; }
+    .mtg-card.bday.active .mtg-badge { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+    .mtg-crown { position: absolute; top: -1.85rem; left: 0; font-size: 1.4rem; opacity: 0; transition: opacity 0.5s ease 0.15s; transform-origin: bottom center; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4)); }
+    .mtg-card.bday.active .mtg-crown { opacity: 1; animation: mtgCrown 2.8s ease-in-out infinite; }
+    @keyframes mtgCrown { 0%,100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-5px) rotate(6deg); } }
+    .mtg-sparkle { position: absolute; z-index: 3; font-size: 0.85rem; opacity: 0; pointer-events: none; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.35)); }
+    .mtg-card.bday.active .mtg-sparkle { animation: mtgSparkle 2.4s ease-in-out infinite; }
+    .mtg-sparkle.s1 { top: 12%; right: 12%; animation-delay: 0.2s; }
+    .mtg-sparkle.s2 { top: 26%; left: 10%; animation-delay: 1s; font-size: 0.7rem; }
+    .mtg-sparkle.s3 { top: 46%; right: 16%; animation-delay: 1.7s; font-size: 0.6rem; }
+    @keyframes mtgSparkle { 0%,100% { opacity: 0; transform: scale(0.5) rotate(0deg); } 40% { opacity: 0.95; transform: scale(1) rotate(20deg); } }
+    .mtg-confetti { position: absolute; top: -35%; left: -6%; width: 112%; height: 150%; z-index: 4; pointer-events: none; }
+    /* controls */
+    .mtg-controls { display: flex; align-items: center; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; }
+    .mtg-arrow { width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,0.7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(200,190,170,0.6); display: flex; align-items: center; justify-content: center; color: var(--ink-mid); box-shadow: 0 4px 16px rgba(80,50,20,0.12); transition: background 0.2s, color 0.2s, transform 0.2s, border-color 0.2s; }
+    .mtg-arrow:hover { background: var(--teal); border-color: var(--teal); color: #fff; transform: scale(1.06); }
+    .mtg-arrow:focus-visible, .mtg-dot:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
+    .mtg-dots { display: flex; gap: 0.55rem; align-items: center; }
+    .mtg-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(120,90,60,0.28); border: none; padding: 0; cursor: pointer; transition: all 0.25s; }
+    .mtg-dot.active { background: linear-gradient(135deg, var(--coral), var(--gold)); transform: scale(1.5); }
+    /* stats */
+    .mtg-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-top: 3.5rem; }
+    .mtg-stat { position: relative; overflow: hidden; text-align: center; padding: 2rem 1rem 1.8rem; border-radius: 1.5rem; background: rgba(255,255,255,0.5); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.65); box-shadow: 0 10px 34px rgba(80,50,20,0.1); transition: transform 0.35s ease, box-shadow 0.35s ease; }
+    .mtg-stat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--teal), var(--gold-light), var(--coral), var(--pink)); opacity: 0.85; }
+    .mtg-stat:hover { transform: translateY(-5px); box-shadow: 0 18px 46px rgba(80,50,20,0.16); }
+    .mtg-stat-icon { font-size: 1.75rem; margin-bottom: 0.65rem; }
+    .mtg-stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--ink); line-height: 1; }
+    .mtg-stat-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-dark); margin-top: 0.5rem; }
+    .mtg-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @media (min-width: 761px) { .mtg-card { flex-basis: var(--mtg-cardw, 62%); } }
+    @media (min-width: 1025px) { .mtg-card { flex-basis: var(--mtg-cardw, 48%); } .mtg-name { font-size: 2.15rem; } }
+    @media (max-width: 620px) { .mtg-stats { grid-template-columns: repeat(2, 1fr); gap: 0.9rem; } }
+    @media (prefers-reduced-motion: reduce) {
+      .mtg-card.active .mtg-glow, .mtg-card.bday.active .mtg-crown, .mtg-card.bday.active .mtg-sparkle { animation: none; }
+      .mtg-track, .mtg-card, .mtg-card-inner, .mtg-photo image-slot { transition: none; }
+      .mtg-confetti { display: none; }
+    }
 
     /* ── GROUP CTA ───────────────────────────────────────────── */
     #group { background: linear-gradient(135deg, var(--teal), #0e7a6e); text-align: center; }
@@ -545,7 +605,7 @@
     <li><a href="#budget" onclick="document.getElementById('nav-links').classList.remove('open')">Budget</a></li>
     <li><a href="#vibe" onclick="document.getElementById('nav-links').classList.remove('open')">Vibe</a></li>
     <li><a href="#important" onclick="document.getElementById('nav-links').classList.remove('open')">Info</a></li>
-    <li><a href="#girls" onclick="document.getElementById('nav-links').classList.remove('open')">The Squad</a></li>
+    <li><a href="#girls" onclick="document.getElementById('nav-links').classList.remove('open')">Meet the Girls</a></li>
     <li><a href="#group" onclick="document.getElementById('nav-links').classList.remove('open')">Group</a></li>
   </ul>
 </nav>
@@ -1245,20 +1305,110 @@
   </div>
 </section>
 
-<!-- THE SQUAD -->
-<section id="girls">
+<!-- MEET THE GIRLS -->
+<section id="girls" aria-labelledby="girls-heading">
+  <div class="mtg-bg" aria-hidden="true">
+    <img class="mtg-palm l" src="images/palm_sil.png" alt="" />
+    <img class="mtg-palm r" src="images/palm_sil.png" alt="" />
+  </div>
   <div class="section-inner">
-    <p class="section-eyebrow reveal">The Squad</p>
-    <h2 class="section-title reveal">Who's Coming</h2>
-    <p class="section-subtitle reveal">Six girls. One villa. No excuses.</p>
+    <p class="section-eyebrow reveal"><span class="mtg-title-emoji">✨</span> Meet the Girls <span class="mtg-title-emoji">✨</span></p>
+    <h2 class="section-title reveal" id="girls-heading">The Personalities</h2>
+    <p class="section-subtitle reveal" style="max-width:640px;">Meet the girls behind #JW30. Six personalities, one villa, endless laughs, unforgettable memories and a birthday celebration we'll never forget.</p>
     <div class="gold-bar reveal"></div>
-    <div class="girls-grid">
-      <div class="girl-card bday reveal"><span class="girl-crown">👑</span><div class="girl-avatar" style="background:linear-gradient(135deg,#b8892a,#d4a843);">J</div><p class="girl-name">Jasmine</p><p class="girl-tag">Birthday Girl</p></div>
-      <div class="girl-card reveal"><div class="girl-avatar" style="background:linear-gradient(135deg,#1a9b8c,#2ec4b0);">F</div><p class="girl-name">Faith</p><p class="girl-tag">The Girls</p></div>
-      <div class="girl-card reveal"><div class="girl-avatar" style="background:linear-gradient(135deg,#e05c3a,#f0a060);">L</div><p class="girl-name">Linda</p><p class="girl-tag">The Girls</p></div>
-      <div class="girl-card reveal"><div class="girl-avatar" style="background:linear-gradient(135deg,#d42d6e,#e8882a);">I</div><p class="girl-name">Isabel</p><p class="girl-tag">The Girls</p></div>
-      <div class="girl-card reveal"><div class="girl-avatar" style="background:linear-gradient(135deg,#1a9b8c,#80c880);">S</div><p class="girl-name">Samie</p><p class="girl-tag">The Girls</p></div>
-      <div class="girl-card reveal"><div class="girl-avatar" style="background:linear-gradient(135deg,#e05c3a,#d42d6e);">J</div><p class="girl-name">Jodie</p><p class="girl-tag">The Girls</p></div>
+
+    <div class="mtg-carousel reveal" role="region" aria-roledescription="carousel" aria-label="Meet the girls">
+      <p class="mtg-sr" aria-live="polite" id="mtgLive"></p>
+      <div class="mtg-viewport">
+        <div class="mtg-track" id="mtgTrack">
+          <div class="mtg-card bday" data-name="jasmine" role="group" aria-roledescription="slide" aria-label="Jasmine, The Birthday Girl">
+            <div class="mtg-glow" aria-hidden="true"></div>
+            <canvas class="mtg-confetti" aria-hidden="true"></canvas>
+            <div class="mtg-badge" aria-hidden="true">🥂 Birthday Girl</div>
+            <span class="mtg-sparkle s1" aria-hidden="true">✨</span>
+            <span class="mtg-sparkle s2" aria-hidden="true">✨</span>
+            <span class="mtg-sparkle s3" aria-hidden="true">✨</span>
+            <div class="mtg-card-inner">
+              <div class="mtg-photo"><image-slot id="girl-jasmine" src="images/girl-jasmine.png" shape="rect" fit="cover" placeholder="Drop Jasmine's portrait"></image-slot></div>
+              <div class="mtg-meta">
+                <h3 class="mtg-name"><span class="mtg-crown" aria-hidden="true">👑</span>Jasmine</h3>
+                <p class="mtg-role">The Birthday Girl</p>
+              </div>
+            </div>
+          </div>
+          <div class="mtg-card" data-name="samie" role="group" aria-roledescription="slide" aria-label="Samie, The Drama Queen">
+            <div class="mtg-glow" aria-hidden="true"></div>
+            <div class="mtg-card-inner">
+              <div class="mtg-photo"><image-slot id="girl-samie" src="images/girl-samie.png" shape="rect" fit="cover" placeholder="Drop Samie's portrait"></image-slot></div>
+              <div class="mtg-meta">
+                <span class="mtg-emoji" aria-hidden="true">🤣</span>
+                <h3 class="mtg-name">Samie</h3>
+                <p class="mtg-role">The Drama Queen</p>
+              </div>
+            </div>
+          </div>
+          <div class="mtg-card" data-name="isabel" role="group" aria-roledescription="slide" aria-label="Isabel, The Peacemaker">
+            <div class="mtg-glow" aria-hidden="true"></div>
+            <div class="mtg-card-inner">
+              <div class="mtg-photo"><image-slot id="girl-isabel" src="images/girl-isabel.png" shape="rect" fit="cover" placeholder="Drop Isabel's portrait"></image-slot></div>
+              <div class="mtg-meta">
+                <span class="mtg-emoji" aria-hidden="true">🫶</span>
+                <h3 class="mtg-name">Isabel</h3>
+                <p class="mtg-role">The Peacemaker</p>
+              </div>
+            </div>
+          </div>
+          <div class="mtg-card" data-name="jodie" role="group" aria-roledescription="slide" aria-label="Jodie, The Life of the Party">
+            <div class="mtg-glow" aria-hidden="true"></div>
+            <div class="mtg-card-inner">
+              <div class="mtg-photo"><image-slot id="girl-jodie" src="images/girl-jodie.png" shape="rect" fit="cover" placeholder="Drop Jodie's portrait"></image-slot></div>
+              <div class="mtg-meta">
+                <span class="mtg-emoji" aria-hidden="true">💃</span>
+                <h3 class="mtg-name">Jodie</h3>
+                <p class="mtg-role">The Life of the Party</p>
+              </div>
+            </div>
+          </div>
+          <div class="mtg-card" data-name="faith" role="group" aria-roledescription="slide" aria-label="Faith, The Always Late One">
+            <div class="mtg-glow" aria-hidden="true"></div>
+            <div class="mtg-card-inner">
+              <div class="mtg-photo"><image-slot id="girl-faith" src="images/girl-faith.png" shape="rect" fit="cover" placeholder="Drop Faith's portrait"></image-slot></div>
+              <div class="mtg-meta">
+                <span class="mtg-emoji" aria-hidden="true">⏰</span>
+                <h3 class="mtg-name">Faith</h3>
+                <p class="mtg-role">The Always Late One</p>
+              </div>
+            </div>
+          </div>
+          <div class="mtg-card" data-name="linda" role="group" aria-roledescription="slide" aria-label="Linda, The Main Character">
+            <div class="mtg-glow" aria-hidden="true"></div>
+            <div class="mtg-card-inner">
+              <div class="mtg-photo"><image-slot id="girl-linda" src="images/girl-linda.png" shape="rect" fit="cover" placeholder="Drop Linda's portrait"></image-slot></div>
+              <div class="mtg-meta">
+                <span class="mtg-emoji" aria-hidden="true">💁🏾‍♀️</span>
+                <h3 class="mtg-name">Linda</h3>
+                <p class="mtg-role">The Main Character</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mtg-controls">
+        <button class="mtg-arrow" id="mtgPrev" aria-label="Previous girl">
+          <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="mtg-dots" id="mtgDots" role="tablist" aria-label="Choose a girl"></div>
+        <button class="mtg-arrow" id="mtgNext" aria-label="Next girl">
+          <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="mtg-stats">
+      <div class="mtg-stat reveal"><div class="mtg-stat-icon" aria-hidden="true">👭</div><div class="mtg-stat-num">6</div><div class="mtg-stat-label">Girls</div></div>
+      <div class="mtg-stat reveal"><div class="mtg-stat-icon" aria-hidden="true">🌴</div><div class="mtg-stat-num">7</div><div class="mtg-stat-label">Nights</div></div>
+      <div class="mtg-stat reveal"><div class="mtg-stat-icon" aria-hidden="true">✈️</div><div class="mtg-stat-num">1</div><div class="mtg-stat-label">Destination</div></div>
+      <div class="mtg-stat reveal"><div class="mtg-stat-icon" aria-hidden="true">🥂</div><div class="mtg-stat-num" style="font-size:1.5rem;">Countless</div><div class="mtg-stat-label">Memories</div></div>
     </div>
   </div>
 </section>
@@ -1287,6 +1437,7 @@
   <p class="footer-note">Made with love for Jasmine's 30th. Soft life only. 🌴</p>
 </footer>
 
+<script src="image-slot.js"></script>
 <script>
 // Countdown
 (function(){
@@ -1360,6 +1511,88 @@
     entries.forEach(function(e){if(e.isIntersecting){run(e.target);cobs.unobserve(e.target);}});
   },{threshold:0.4});
   counters.forEach(function(el){cobs.observe(el);});
+})();
+
+// Meet the Girls carousel
+(function(){
+  var track=document.getElementById('mtgTrack');
+  if(!track) return;
+  var viewport=track.parentElement;
+  var reveal=track.closest('.reveal');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reals=Array.prototype.slice.call(track.children);
+  var n=reals.length, CLONES=2;
+  var labels=reals.map(function(c){return c.getAttribute('aria-label');});
+  // build clones for seamless infinite loop
+  var pre=[], post=[];
+  for(var i=0;i<CLONES;i++){ pre.push(reals[n-CLONES+i].cloneNode(true)); post.push(reals[i].cloneNode(true)); }
+  function scrub(node){ node.setAttribute('aria-hidden','true'); node.dataset.clone='1'; node.querySelectorAll('image-slot').forEach(function(s){s.removeAttribute('id');}); }
+  pre.forEach(function(c){scrub(c); track.insertBefore(c, track.firstChild);});
+  post.forEach(function(c){scrub(c); track.appendChild(c);});
+  var children=Array.prototype.slice.call(track.children);
+  var pos=CLONES, prevReal=-1, animating=false, rafId=0, tt=0;
+
+  // dots
+  var dotsWrap=document.getElementById('mtgDots'), dots=[];
+  for(i=0;i<n;i++){ (function(idx){ var b=document.createElement('button'); b.className='mtg-dot'; b.setAttribute('role','tab'); b.setAttribute('aria-label',labels[idx]); b.onclick=function(){ go(CLONES+idx); }; dotsWrap.appendChild(b); dots.push(b); })(i); }
+  var live=document.getElementById('mtgLive');
+
+  function realOf(p){ if(p<CLONES) return n-CLONES+p; if(p>=CLONES+n) return p-(CLONES+n); return p-CLONES; }
+  function center(animate){ var el=children[pos]; var x=el.offsetLeft+el.offsetWidth/2-viewport.clientWidth/2; if(!animate){ track.style.transition='none'; } track.style.transform='translateX('+(-x)+'px)'; if(!animate){ void track.offsetWidth; track.style.transition=''; } }
+  function setActive(){ children.forEach(function(c){c.classList.remove('active');}); children[pos].classList.add('active'); }
+  function chrome(ri){ dots.forEach(function(d,i){ d.classList.toggle('active',i===ri); d.setAttribute('aria-selected',i===ri?'true':'false'); }); if(live) live.textContent=labels[ri]+' \u2014 '+(ri+1)+' of '+n; }
+
+  function render(animate){
+    center(animate); setActive();
+    var ri=realOf(pos); chrome(ri);
+    var doConfetti=(ri===0 && prevReal!==0); prevReal=ri;
+    clearTimeout(tt);
+    if(animate && !reduce){
+      animating=true;
+      var done=function(e){ if(e && e.target!==track) return; track.removeEventListener('transitionend',done); onSettle(doConfetti); };
+      track.addEventListener('transitionend',done);
+      tt=setTimeout(function(){ track.removeEventListener('transitionend',done); onSettle(doConfetti); },720);
+    } else { onSettle(doConfetti); }
+  }
+  function onSettle(doConfetti){
+    animating=false;
+    if(pos<CLONES || pos>=CLONES+n){ pos=CLONES+realOf(pos); center(false); setActive(); }
+    if(doConfetti && !reduce){ var card=children[pos]; if(card.dataset.name==='jasmine') fireConfetti(card); }
+  }
+  function go(p){ if(animating) return; pos=p; render(true); }
+
+  document.getElementById('mtgPrev').onclick=function(){ go(pos-1); };
+  document.getElementById('mtgNext').onclick=function(){ go(pos+1); };
+  var region=track.closest('[aria-roledescription="carousel"]');
+  region.addEventListener('keydown',function(e){ if(e.key==='ArrowLeft'){ e.preventDefault(); go(pos-1); } else if(e.key==='ArrowRight'){ e.preventDefault(); go(pos+1); } });
+  var sx=0,sy=0,sw=false,drag=false,baseX=0;
+  function curX(){ var el=children[pos]; return -(el.offsetLeft+el.offsetWidth/2-viewport.clientWidth/2); }
+  viewport.addEventListener('touchstart',function(e){ if(animating)return; sx=e.touches[0].clientX; sy=e.touches[0].clientY; sw=true; drag=false; baseX=curX(); },{passive:true});
+  viewport.addEventListener('touchmove',function(e){ if(!sw)return; var dx=e.touches[0].clientX-sx, dy=e.touches[0].clientY-sy; if(!drag){ if(Math.abs(dx)>8 && Math.abs(dx)>Math.abs(dy)) drag=true; else if(Math.abs(dy)>10) { sw=false; return; } } if(drag){ e.preventDefault(); track.style.transition='none'; track.style.transform='translateX('+(baseX+dx)+'px)'; } },{passive:false});
+  viewport.addEventListener('touchend',function(e){ if(!sw)return; sw=false; track.style.transition=''; if(!drag) return; var dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>viewport.clientWidth*0.14) go(dx<0?pos+1:pos-1); else render(true); });
+
+  function fireConfetti(card){
+    var cv=card.querySelector('.mtg-confetti'); if(!cv) return;
+    var W=cv.clientWidth, H=cv.clientHeight; if(!W||!H) return;
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    cv.width=W*dpr; cv.height=H*dpr; var ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
+    var colors=['#e05c3a','#2ec4b0','#d42d6e','#d4a843','#ffffff'];
+    var parts=[], origins=[{x:W*0.10,y:H*0.32,dir:-1,n:60},{x:W*0.90,y:H*0.32,dir:1,n:60},{x:W*0.5,y:H*0.20,dir:0,n:40}];
+    origins.forEach(function(o){ for(var i=0;i<o.n;i++){ var spread=o.dir===0?(Math.random()-0.5)*1.7:o.dir*(0.1+Math.random()*1.0); var ang=(-Math.PI/2)+spread; var sp=11+Math.random()*11; parts.push({x:o.x,y:o.y,vx:Math.cos(ang)*sp+o.dir*2.5,vy:Math.sin(ang)*sp-4,r:4+Math.random()*6,c:colors[i%colors.length],rot:Math.random()*6.28,vr:(Math.random()-0.5)*0.7,shape:Math.random()<0.5?0:1}); } });
+    var start=null, DUR=4600;
+    cancelAnimationFrame(rafId);
+    function frame(ts){ if(!start)start=ts; var t=ts-start; ctx.clearRect(0,0,W,H); var fade=t>3600?Math.max(0,1-(t-3600)/1000):1; for(var i=0;i<parts.length;i++){ var p=parts[i]; p.vy+=0.05; p.vx*=0.975; p.vy*=0.985; p.x+=p.vx*0.4; p.y+=p.vy*0.4; p.rot+=p.vr; ctx.save(); ctx.globalAlpha=fade; ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c; if(p.shape){ ctx.beginPath(); ctx.arc(0,0,p.r*0.6,0,6.283); ctx.fill(); } else { ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.7); } ctx.restore(); } if(t<DUR){ rafId=requestAnimationFrame(frame); } else { ctx.clearRect(0,0,W,H); } }
+    rafId=requestAnimationFrame(frame);
+  }
+
+  function init(){ pos=CLONES; center(false); setActive(); chrome(0); prevReal=-1; }
+  // fire the initial (Jasmine) confetti once her card scrolls into view
+  var started=false;
+  var io=new IntersectionObserver(function(en){ en.forEach(function(e){ if(e.isIntersecting){ center(false); setActive(); if(!started){ started=true; if(!reduce && realOf(pos)===0){ fireConfetti(children[pos]); prevReal=0; } } } }); },{threshold:0.55});
+  io.observe(children[CLONES]);
+  init();
+  window.addEventListener('resize',function(){ center(false); });
+  window.addEventListener('load',function(){ center(false); });
 })();
 </script>
 
